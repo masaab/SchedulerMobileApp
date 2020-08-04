@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:utility="clr-namespace:Scheduler.Utility;assembly=Scheduler"
+                   utility:ViewModelLocator.AutoWireViewModel="True"
+             x:Class="Scheduler.Views.JobDetailPage">
+    
+    <StackLayout Spacing="20" Padding="15">
+        
+        <Label Text="Description:" FontSize="Medium"/>
+        <Label Text="{Binding Job.Description}" d:Text="Description" FontSize="Small"/>
+
+        <Label Text="Quote" FontSize="Medium"/>
+        <Label Text="{Binding Job.Quote}" d:Text="Quote" FontSize="Small"/>
+
+        <Label Text="Scheduled On" FontSize="Medium"/>
+        <Label Text="{Binding Job.ScheduledOn}" d:Text="ScheduledOn" FontSize="Small"/>
+
+        <Label Text="JobType" FontSize="Medium"/>
+        <Label Text="{Binding Job.Type}" d:Text="SelectedJob" FontSize="Small"/>
+
+    </StackLayout>
+</ContentPage>

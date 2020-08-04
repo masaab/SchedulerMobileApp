@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Scheduler.Behaviours"
+             xmlns:localconverter="clr-namespace:Scheduler.Converters"
+             mc:Ignorable="d"
+              xmlns:utility="clr-namespace:Scheduler.Utility;assembly=Scheduler"
+                  utility:ViewModelLocator.AutoWireViewModel="True"
+             x:Class="Scheduler.Views.JobPage"
+             Title="Jobs">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <localconverter:SelectedItemConverter x:Key="SelectedJob" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding NavigateToAddJobCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <ListView x:Name="JobListView"
+                  ItemsSource ="{Binding Jobs}"
+                  VerticalOptions="FillAndExpand"
+                  HasUnevenRows="True"
+                  RefreshCommand="{Binding LoadJobsCommand}"
+                  IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding Path=BindingContext.DeleteJobCommand,
+                                                Source={x:Reference Name=JobListView}}"
+                                                CommandParameter="{Binding .}"
+                                                Text="Delete"/>
+                        </ViewCell.ContextActions>
+                        
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding ScheduledOn}"
+                                   d:Text="{Binding .}"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemTextStyle}"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Behaviors>
+                <local:EventToCommandBehaviour EventName="ItemSelected" 
+                                               Command="{Binding SelectedItemCommand}" 
+                                               Converter="{StaticResource SelectedJob}" />
+            </ListView.Behaviors>
+
+        </ListView>
+    </StackLayout>
+</ContentPage>

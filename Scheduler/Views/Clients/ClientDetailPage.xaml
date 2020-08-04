@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:utility="clr-namespace:Scheduler.Utility;assembly=Scheduler"
+                   utility:ViewModelLocator.AutoWireViewModel="True"
+             x:Class="Scheduler.Views.ClientDetailPage"
+             Title="{Binding SelectedClient.FullName}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Job" Command="{Binding NavigateToJobsCommand}" CommandParameter="{Binding SelectedClient}"/>
+    </ContentPage.ToolbarItems>
+    
+    <StackLayout Spacing="20" Padding="15">
+        
+        <Label Text="Phone:" FontSize="Medium"/>
+        <Label Text="{Binding SelectedClient.Phone}" d:Text="Phone" FontSize="Small"/>
+
+        <Label Text="Email" FontSize="Medium"/>
+        <Label Text="{Binding SelectedClient.Email}" d:Text="Email" FontSize="Small"/>
+
+        <Label Text="Address" FontSize="Medium"/>
+        <Label Text="{Binding SelectedClient.Address}" d:Text="Address" FontSize="Small"/>
+
+    </StackLayout>
+</ContentPage>

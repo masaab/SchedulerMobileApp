@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviour="clr-namespace:Scheduler.Behaviours"
+             xmlns:sync="clr-namespace:Syncfusion.XForms.DataForm;assembly=Syncfusion.SfDataForm.XForms"
+             mc:Ignorable="d"
+             xmlns:utility="clr-namespace:Scheduler.Utility;assembly=Scheduler"
+                   utility:ViewModelLocator.AutoWireViewModel="True"
+             x:Class="Scheduler.Views.NewClientPage"
+             Title="{Binding Title}">
+
+
+    <ContentPage.Content>
+        <Grid Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <sync:SfDataForm x:Name="dataForm" LayoutOptions="TextInputLayout"  
+                             ValidationMode="Explicit" DataObject="{Binding Client}">
+                <sync:SfDataForm.Behaviors>
+                    <behaviour:NewClientPageBehavior/>
+                </sync:SfDataForm.Behaviors>
+            </sync:SfDataForm>
+            <Button x:Name="transferMoney" Grid.Row="1"  Text="Create" TextColor="#FFFFFF"
+                  WidthRequest="150" HeightRequest="40" BackgroundColor="#2196F3" HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                  Command="{Binding Path=BindingContext.OnSaveClientCommand, Source={x:Reference Name=dataForm}}"                   
+                                                CommandParameter="{Binding Source={x:Reference Name=dataForm}}"
+                     IsVisible="{Binding IsVisible, Mode=TwoWay}"/>
+         
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

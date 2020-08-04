@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Scheduler.Behaviours"
+             xmlns:localconverter="clr-namespace:Scheduler.Converters"
+             mc:Ignorable="d"
+             xmlns:utility="clr-namespace:Scheduler.Utility;assembly=Scheduler"
+                  utility:ViewModelLocator.AutoWireViewModel="True"
+             Title="{Binding Title}"
+             x:Class="Scheduler.Views.ClientPage">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <localconverter:SelectedItemConverter x:Key="SelectedClient" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding NavigateToClientDetailCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <ListView x:Name="ClientListView"
+                  ItemsSource="{Binding Clients}"
+                  VerticalOptions="FillAndExpand"
+                  HasUnevenRows="true"
+                  RefreshCommand="{Binding LoadClientsCommand}"
+                  IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  CachingStrategy="RecycleElement">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding Path=BindingContext.DeleteClientCommand, 
+                                      Source={x:Reference Name=ClientListView}}"
+                                      CommandParameter="{Binding .}"
+                                      Text="Delete"  />
+                        </ViewCell.ContextActions>
+                        
+                        <StackLayout Padding="10">
+                                   <Label Text="{Binding FullName}"
+                                   d:Text="{Binding .}"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemTextStyle}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Behaviors>
+                <local:EventToCommandBehaviour EventName="ItemSelected" 
+                                               Command="{Binding SelectedItemCommand}" 
+                                               Converter="{StaticResource SelectedClient}" />
+            </ListView.Behaviors>
+        </ListView>
+    </StackLayout>
+</ContentPage>

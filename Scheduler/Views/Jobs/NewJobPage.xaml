@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviour="clr-namespace:Scheduler.Behaviours"
+             xmlns:sync="clr-namespace:Syncfusion.XForms.DataForm;assembly=Syncfusion.SfDataForm.XForms"
+             mc:Ignorable="d"
+             xmlns:utility="clr-namespace:Scheduler.Utility;assembly=Scheduler"
+                   utility:ViewModelLocator.AutoWireViewModel="True"
+             x:Class="Scheduler.Views.NewJobPage">
+             
+
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding OnSaveJobCommand}" CommandParameter="{Binding Job}"/>
+    </ContentPage.ToolbarItems>-->
+    
+    <ContentPage.Content>
+        <Grid Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <sync:SfDataForm x:Name="dataForm" LayoutOptions="TextInputLayout"  
+                             ValidationMode="Explicit" DataObject="{Binding Job}">
+                <sync:SfDataForm.Behaviors>
+                    <behaviour:NewJobPageBehavior/>
+                </sync:SfDataForm.Behaviors>
+            </sync:SfDataForm>
+            <Button x:Name="transferMoney" Grid.Row="1"  Text="Create" TextColor="#FFFFFF"
+                  WidthRequest="150" HeightRequest="40" BackgroundColor="#2196F3" HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                  Command="{Binding Path=BindingContext.OnSaveJobCommand, 
+                            Source={x:Reference Name=dataForm}}"                   
+                            CommandParameter="{Binding Source={x:Reference Name=dataForm}}"
+                            IsVisible="{Binding IsVisible, Mode=TwoWay}"/>
+
+        </Grid>
+        <!--<StackLayout Spacing="20" Padding="10">
+            
+            <Label Text="Description" FontSize="Medium"/>
+            <Editor HeightRequest="100" Text="{Binding Job.Description, Mode=TwoWay}" d:Text="Descripton" FontSize="Small"/>
+
+            <Label Text="Quote" FontSize="Medium"/>
+            <Entry Text="{Binding Job.Quote, Mode=TwoWay}" d:Text = "Quote" FontSize="Small"/>
+
+            <Label Text="Type" FontSize="Medium"/>
+            <Picker ItemsSource="{Binding JobTypes, Mode=TwoWay}" 
+                    SelectedItem="{Binding Job.Type, Mode=TwoWay}" />
+
+            <DatePicker MinimumDate="{Binding Job.MinimumDate}" Date="{Binding Job.ScheduledOn}"/>
+
+            <TimePicker Time="{Binding Job.ScheduleTime, Mode=TwoWay}"/>
+
+            <Label Text="Reminder" FontSize="Medium"/>
+            <Switch HorizontalOptions="Start" IsToggled="{Binding Job.Reminder}"/>
+
+        </StackLayout>-->
+    </ContentPage.Content>
+</ContentPage>
