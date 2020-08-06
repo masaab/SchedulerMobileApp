@@ -50,10 +50,7 @@ namespace Scheduler.Managers
             throw new NotImplementedException();
         }
 
-        private void ExecuteRequestInPollyService()
-        {
-            
-        }
+     
         private string GetUriBuilder(string path)
             => new UriBuilder(AppSettingDetails.BackendUrl) { Path = path }.ToString();
     }
