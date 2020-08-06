@@ -8,12 +8,11 @@ namespace Scheduler.ViewModels
     public class ClientDetailViewModel : BaseViewModel
     {
 
-        private INavigationManager NavigationManager { get; }
         public Command NavigateToJobsCommand => new Command<Client>(async (T) => await NavigateToJobs(T));
         public ClientDetailViewModel(INavigationManager manager):
             base(manager)
         {
-            NavigationManager = manager;
+        
         }
         private async Task NavigateToJobs(Client client)
         {

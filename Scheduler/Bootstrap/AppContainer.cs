@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Scheduler.AppSetting;
 using Scheduler.Managers;
 using Scheduler.Managers.Abstraction;
 using Scheduler.Repository;
@@ -34,6 +35,8 @@ namespace Scheduler.Bootstrap
             builder.RegisterType<CalendarManager>().As<ICalenderManager>().SingleInstance();
 
             builder.RegisterType<DataRepository>().As<IDataRepository>().SingleInstance();
+
+            builder.RegisterType<AppSettingManager>().As<IApplicationSettingManager>().SingleInstance();
 
             Container = builder.Build();
         }

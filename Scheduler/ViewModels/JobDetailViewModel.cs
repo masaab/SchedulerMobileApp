@@ -7,11 +7,9 @@ namespace Scheduler.ViewModels
     public class JobDetailViewModel : BaseViewModel
     {
         private Job _job;
-        private INavigationManager NavigationManager { get; }
         public JobDetailViewModel(INavigationManager manager)
             :base(manager)
         {
-            NavigationManager = manager;
         }
 
         public Job Job 

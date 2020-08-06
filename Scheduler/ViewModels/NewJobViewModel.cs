@@ -49,7 +49,7 @@ namespace Scheduler.ViewModels
             }
         }
 
-        private async Task CreateNewJob(Object dataForm)
+        private async Task CreateNewJob(object dataForm)
         {
 
             var dataFormLayout = dataForm as Syncfusion.XForms.DataForm.SfDataForm;

@@ -46,11 +46,11 @@ namespace Scheduler.Repository
             try
             {
                 HttpClient httpClient = CreateHttpClient();
-         
+
                 var content = new StringContent(JsonConvert.SerializeObject(data));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 string jsonResult = string.Empty;
-                
+
                 var responseMessage = await Policy
                     .Handle<WebException>(ex =>
                     {
@@ -131,6 +131,42 @@ namespace Scheduler.Repository
                 Debug.WriteLine($"{ e.GetType().Name + " : " + e.Message}");
                 throw;
             }
+        }
+
+        private async Task<R> ExecuteRequestInPollyService<T,R>(string uri, T data,R returnValue)
+        {
+            HttpClient httpClient = CreateHttpClient();
+
+            var content = new StringContent(JsonConvert.SerializeObject(data));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            string jsonResult = string.Empty;
+            var responseMessage = await Policy
+                .Handle<WebException>(ex =>
+                {
+                    Console.WriteLine($"{ex.GetType().Name + " : " + ex.Message}");
+                    return true;
+                })
+                .WaitAndRetryAsync
+                (
+                    5,
+                    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                )
+                .ExecuteAsync(async () => await httpClient.PostAsync(uri, content).ConfigureAwait(false));
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                jsonResult = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var json = JsonConvert.DeserializeObject<R>(jsonResult);
+                return json;
+            }
+
+            if (responseMessage.StatusCode == HttpStatusCode.Forbidden ||
+                responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new Exception(jsonResult);
+            }
+
+            throw new HttpRequestExceptionEx(responseMessage.StatusCode, jsonResult);
         }
 
         public Task<T> PutAsync<T>(string uri, T data, string authToken = "")

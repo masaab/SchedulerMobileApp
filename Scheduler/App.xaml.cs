@@ -3,6 +3,9 @@ using Xamarin.Forms;
 using Scheduler.Bootstrap;
 using System.Threading.Tasks;
 using Scheduler.Managers.Abstraction;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Scheduler
 {
@@ -22,12 +25,13 @@ namespace Scheduler
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjkzOTMxQDMxMzgyZTMyMmUzMGlreXVYNTY2S3QwaGtsalBCY3V3ZDJ5RWhrdjBGZEVNN3NEdU5MT1A3ZDA9");
             InitializeComponent();
             InitializeApp();
-            InitializeNavigation();
+            InitializeNavigation().ConfigureAwait(false);
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
+            AppCenter.Start("android=c9843a95-617f-4cba-ac00-a6f0804184ab;", typeof(Analytics), typeof(Crashes));
         }
 
         protected override void OnSleep()
@@ -50,7 +54,5 @@ namespace Scheduler
             var navigationManager = AppContainer.Resolve<INavigationManager>();
             await navigationManager.InitializeAsync();
         }
-
-
     }
 }
